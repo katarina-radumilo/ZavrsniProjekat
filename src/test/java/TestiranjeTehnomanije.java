@@ -29,6 +29,20 @@ public class TestiranjeTehnomanije {
 
     }
 
+    /*
+    Test scenario: Prijava Korisnika
+    Početno stanje: Sajt www.tehnomanija.rs je otvoren i popup prozori su pozatvarani
+    Testni koraci:
+        1. Otvaranje login menija
+            akcija: Pokazivač miša pozicionirati iznad menija prijave korisnika
+        2. Unos korisničke email adrese
+            akcija: Popuniti email adresu u polje za korisničko ime
+        3. Unos korisničke lozinke
+            akcija: Popuniti lozinku u odgovarajuće polje
+        4. Prijava
+            akcija: Kliknuti na dugme prijava
+    Očekivani rezultat: Korisnik prijavljen i meni za prijavu označen korisničkim imenom umesto teksta "PRIJAVA"
+    */
     @Test
     public void logovanjeKorisnika() {
         ukloniPopupove();
@@ -41,6 +55,20 @@ public class TestiranjeTehnomanije {
         Assert.assertNotEquals("PRIJAVA", loginDropdownCaption);
     }
 
+    /*
+    Test scenario: Odabir zadate kategorije proizvoda
+    Početno stanje: Sajt www.tehnomanija.rs je otvoren, popup prozori su pozatvarani i korisnik prijavljen
+    Testni koraci:
+        1. Otvaranje menija proizvoda
+            akcija: Pokazivač miša pozicionirati iznad menija proizvoda
+        2. Odabir kategorije "Bela tehnika"
+            akcija: Pokazivač miša pozicionirati iznad stavke "Bela tehnika"
+        3. Odabir podkategorije "Mašine za pranje veša"
+            akcija: Pokazivač miša pozicionirati iznad stavke "Mašine za pranje veša"
+        4. Otvaranje kataloga "Mašine za pranje veša"
+            akcija: Kliknuti na stavku "Mašine za pranje veša"
+    Očekivani rezultat: Prikazuje se katalog zadate kategorije proizvoda
+    */
     @Test
     public void odaberiKategorijuMasineZaPranjeVesa(){
         postaviPocetnoStanje();
@@ -52,6 +80,16 @@ public class TestiranjeTehnomanije {
         Assert.assertEquals("https://www.tehnomanija.rs/bela-tehnika/masine-za-pranje-vesa", location);
     }
 
+    /*
+    Test scenario: Odjava Korisnika
+    Početno stanje: Sajt www.tehnomanija.rs je otvoren, popup prozori su pozatvarani korisnik prijavljen
+    Testni koraci:
+        1. Otvaranje korisničkog menija
+            akcija: Pokazivač miša pozicionirati iznad korisničkog menija
+        2. Odabir stavke odjava
+            akcija: Kliknuti na stavku odjava
+    Očekivani rezultat: Korisnik je odjavljen i meni za prijavu označen tekstom "PRIJAVA"
+    */
     @Test
     public void odjavljivanjeKorisnika() {
         postaviPocetnoStanje();
@@ -64,6 +102,28 @@ public class TestiranjeTehnomanije {
         Assert.assertEquals("PRIJAVA", loginDropdownCaption);
     }
 
+    /*
+    Test scenario: Kupovina najjeftinijeg fena za kosu
+    Početno stanje: Sajt www.tehnomanija.rs je otvoren, popup prozori su pozatvarani, korisnik prijavljen i korpa je prazna
+    Testni koraci:
+        1. Otvaranje menija proizvoda
+            akcija: Pokazivač miša pozicionirati iznad menija proizvoda
+        2. Odabir kategorije "Lepota i zdravlje"
+            akcija: Pokazivač miša pozicionirati iznad stavke "lepota i zdravlje"
+        3. Odabir podkategorije "Fenovi za kosu"
+            akcija: Pokazivač miša pozicionirati iznad stavke "Fenovi za kosu"
+        4. Otvaranje kataloga "Fenovi za kosu"
+            akcija: Kliknuti na stavku "Fenovi za kosu"
+        5. Otvaranje menija "Sortiranje"
+            akcija: Kliknuti na meni "Sortiranje"
+        6. Odabir sortiranja po ceni rastuće
+            akcija: Kliknuti na stavku "Po ceni rastuće"
+        7. Kupovina prvog proizvoda u katalogu
+            akcija: Kliknuti na dugme "Dodaj u korpu" prvog proizvoda u katalogu
+        8. Pregled korpe
+            akcija: Kliknuti na ikonicu "Korpa"
+    Očekivani rezultat: Prikazuje se sadržaj korpe, u njoj je odabrani proizvod i ukupni iznos korpe je u zadatom opsegu
+    */
     @Test
     public void kupiNajjeftinijiFen() {
         postaviPocetnoStanje();
@@ -83,6 +143,28 @@ public class TestiranjeTehnomanije {
         Assert.assertTrue(priceInRange);
     }
 
+    /*
+    Test scenario: Kupovina najjeftinijeg fena za kosu
+    Početno stanje: Sajt www.tehnomanija.rs je otvoren, popup prozori su pozatvarani, korisnik prijavljen i korpa je prazna
+    Testni koraci:
+        1. Otvaranje menija proizvoda
+            akcija: Pokazivač miša pozicionirati iznad menija proizvoda
+        2. Odabir kategorije "Mali kućni aparati"
+            akcija: Pokazivač miša pozicionirati iznad stavke "Mali kućni aparati"
+        3. Odabir podkategorije "Standardne pegle"
+            akcija: Pokazivač miša pozicionirati iznad stavke "Standardne pegle"
+        4. Otvaranje kataloga "Standardne pegle"
+            akcija: Kliknuti na stavku "Standardne pegle"
+        5. Otvaranje menija "Sortiranje"
+            akcija: Kliknuti na meni "Sortiranje"
+        6. Odabir sortiranja po ceni rastuće
+            akcija: Kliknuti na stavku "Po ceni rastuće"
+        7. Kupovina prvog proizvoda u katalogu
+            akcija: Kliknuti na dugme "Dodaj u korpu" prvog proizvoda u katalogu
+        8. Pregled korpe
+            akcija: Kliknuti na ikonicu "Korpa"
+    Očekivani rezultat: Prikazuje se sadržaj korpe, u njoj je odabrani proizvod i ukupni iznos korpe je u zadatom opsegu
+    */
     @Test
     public void dodajNajjeftinijuPeglu() {
         postaviPocetnoStanje();
@@ -102,6 +184,30 @@ public class TestiranjeTehnomanije {
         Assert.assertTrue(priceInRange);
     }
 
+    /*
+    Test scenario: Kupovina najjeftinijeg fena za kosu
+    Početno stanje: Sajt www.tehnomanija.rs je otvoren, popup prozori su pozatvarani, korisnik prijavljen i korpa je prazna
+    Testni koraci:
+        1. Otvaranje menija proizvoda
+            akcija: Pokazivač miša pozicionirati iznad menija proizvoda
+        2. Odabir kategorije "Mali kućni aparati"
+            akcija: Pokazivač miša pozicionirati iznad stavke "Mali kućni aparati"
+        3. Odabir podkategorije "Aparati za espresso"
+            akcija: Pokazivač miša pozicionirati iznad stavke "Aparati za espresso"
+        4. Otvaranje kataloga "Aparati za espresso"
+            akcija: Kliknuti na stavku "Aparati za espresso"
+        5. Otvaranje menija "Sortiranje"
+            akcija: Kliknuti na meni "Sortiranje"
+        6. Odabir sortiranja po ceni rastuće
+            akcija: Kliknuti na stavku "Po ceni rastuće"
+        7. Kupovina prvog proizvoda u katalogu
+            akcija: Kliknuti na dugme "Dodaj u korpu" prvog proizvoda u katalogu
+        8. Pregled korpe
+            akcija: Kliknuti na ikonicu "Korpa"
+        9. Nastavak kupovine
+            akcija: Kliknuti na link "Nastaviti kupovinu"
+    Očekivani rezultat: Prikazuje se početna stranica www.tehnomanija.rs
+    */
     @Test
     public void nastavakKupovine(){
         postaviPocetnoStanje();
