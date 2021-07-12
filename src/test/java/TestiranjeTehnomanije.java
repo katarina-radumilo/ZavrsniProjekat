@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -6,6 +7,8 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
+
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,6 +30,41 @@ public class TestiranjeTehnomanije {
     }
 
     @Test
+    public void logovanjeKorisnika() {
+        ukloniPopupove();
+
+        ulogujKorisnika();
+
+        WebElement loginDropdown = driver.findElement(By.className("user-name"));
+        String loginDropdownCaption = loginDropdown.getText().toUpperCase().trim();
+
+        Assert.assertNotEquals("PRIJAVA", loginDropdownCaption);
+    }
+
+    @Test
+    public void odaberiKategorijuMasineZaPranjeVesa(){
+        postaviPocetnoStanje();
+
+        odaberiKategorijuProizvoda("bela-tehnika", "masine-za-pranje-vesa");
+
+        String location = driver.getCurrentUrl();
+
+        Assert.assertEquals("https://www.tehnomanija.rs/bela-tehnika/masine-za-pranje-vesa", location);
+    }
+
+    @Test
+    public void odjavljivanjeKorisnika() {
+        postaviPocetnoStanje();
+
+        odjaviKorisnika();
+
+        WebElement loginDropdown = driver.findElement(By.className("user-name"));
+        String loginDropdownCaption = loginDropdown.getText().toUpperCase().trim();
+
+        Assert.assertEquals("PRIJAVA", loginDropdownCaption);
+    }
+
+    @Test
     public void kupiNajjeftinijiFen() {
         postaviPocetnoStanje();
 
@@ -37,6 +75,12 @@ public class TestiranjeTehnomanije {
         dodajPrviProizvodUKorpu();
 
         pregledajKorpu();
+
+        Double totalAmountBasket = totalKorpe();
+
+        boolean priceInRange = (totalAmountBasket > 0.0 && totalAmountBasket < 1500.0);
+
+        Assert.assertTrue(priceInRange);
     }
 
     @Test
@@ -50,6 +94,35 @@ public class TestiranjeTehnomanije {
         dodajPrviProizvodUKorpu();
 
         pregledajKorpu();
+
+        Double totalAmountBasket = totalKorpe();
+
+        boolean priceInRange = (totalAmountBasket > 0.0 && totalAmountBasket < 2000.0);
+
+        Assert.assertTrue(priceInRange);
+    }
+
+    @Test
+    public void nastavakKupovine(){
+        postaviPocetnoStanje();
+
+        odaberiKategorijuProizvoda("mali-kucni-aparati", "aparati-za-espresso");
+
+        sortirajPoCeniRastuce();
+
+        dodajPrviProizvodUKorpu();
+
+        pregledajKorpu();
+
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("optional-continue-shopping"))));
+        WebElement continueShopping = driver.findElement(By.className("optional-continue-shopping"));
+        actions.moveToElement(continueShopping).perform();
+        continueShopping.click();
+
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("category-menu"))));
+        String location = driver.getCurrentUrl();
+
+        Assert.assertEquals("https://www.tehnomanija.rs/", location);
     }
 
     private void postaviPocetnoStanje() {
@@ -115,7 +188,7 @@ public class TestiranjeTehnomanije {
         WebElement loginDropdown = driver.findElement(By.className("user-name"));
         String loginDropdownCaption = loginDropdown.getText().toUpperCase().trim();
         if (!loginDropdownCaption.equals("PRIJAVA")) {
-            return;
+            odjaviKorisnika();
         }
 
         actions.moveToElement(loginDropdown).perform();
@@ -140,7 +213,7 @@ public class TestiranjeTehnomanije {
             cookieConsent.click();
         }
         catch (Exception e) {
-            System.out.println("Problem with Cookie Consent popup");
+            System.out.println(e.getMessage());
         }
 
         try {
@@ -149,7 +222,39 @@ public class TestiranjeTehnomanije {
             pushNotification.click();
         }
         catch (Exception e) {
-            System.out.println("Problem with Push Notification popup");
+            System.out.println(e.getMessage());
         }
+    }
+
+    private void odjaviKorisnika() {
+        try {
+            WebElement loginDropdown = driver.findElement(By.className("user-name"));
+            actions.moveToElement(loginDropdown).perform();
+
+            wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@class='dropdown-login logged-in']//a[@id='js-logout']"))));
+            WebElement logoutOption = driver.findElement(By.xpath("//div[@class='dropdown-login logged-in']//a[@id='js-logout']"));
+            logoutOption.click();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private Double totalKorpe() {
+        Double basketTotalAmount = 0.0;
+
+        WebElement basketTotal = driver.findElement(By.xpath("//div[@class='basket-header js-basket-header']//span[@class='js-header-basket-total header-basket-total']"));
+        String basketTotalText = basketTotal.getText().replace("RSD", "").trim();
+
+        DecimalFormat decimalFormat = new DecimalFormat("###,##0.00");
+
+        try {
+            basketTotalAmount = decimalFormat.parse(basketTotalText).doubleValue();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return basketTotalAmount;
     }
 }
