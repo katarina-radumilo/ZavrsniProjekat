@@ -144,7 +144,7 @@ public class TestiranjeTehnomanije {
     }
 
     /*
-    Test scenario: Kupovina najjeftinijeg fena za kosu
+    Test scenario: Kupovina najjeftinije pegle
     Početno stanje: Sajt www.tehnomanija.rs je otvoren, popup prozori su pozatvarani, korisnik prijavljen i korpa je prazna
     Testni koraci:
         1. Otvaranje menija proizvoda
@@ -185,7 +185,7 @@ public class TestiranjeTehnomanije {
     }
 
     /*
-    Test scenario: Kupovina najjeftinijeg fena za kosu
+    Test scenario: Nastavak kupovine nakon kupvine prvog artikla
     Početno stanje: Sajt www.tehnomanija.rs je otvoren, popup prozori su pozatvarani, korisnik prijavljen i korpa je prazna
     Testni koraci:
         1. Otvaranje menija proizvoda
